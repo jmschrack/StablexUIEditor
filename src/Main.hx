@@ -25,6 +25,8 @@ class Main extends Sprite
 	{
 		if (inited) return;
 		inited = true;
+		UIBuilder.regClass('ExpandableTree');
+		UIBuilder.init();
 
 		// (your code here)
 		
