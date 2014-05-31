@@ -1,9 +1,12 @@
 package ;
 
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
-
+import ru.stablex.ui.UIBuilder;
+import openfl.Assets;
 /**
  * ...
  * @author Jonathan Schrack
@@ -25,13 +28,30 @@ class Main extends Sprite
 	{
 		if (inited) return;
 		inited = true;
+		
+		//var bitmap = new Bitmap (Assets.getBitmapData ("assets/openfl.png"));
+		//addChild (bitmap);
+		
+		//bitmap.x = (stage.stageWidth - bitmap.width) / 2;
+		//bitmap.y = (stage.stageHeight - bitmap.height) / 2;
+		
+		
+		
+		
 		UIBuilder.regClass('ExpandableTree');
 		UIBuilder.init();
-
-		// (your code here)
+		//addChild( UIBuilder.buildFn('window.xml')() );
 		
+		// (your code here)
+		trace("Building tree");
+		var doc:Xml = Xml.parse(Assets.getText("assets/position.xml"));
+		var xmlTree:ExpandableTree = ExpandableTree.createTree(doc.firstElement(),"");
+		trace("Adding tree");
+		//trace(xmlTree.numChildren);
+		//trace(xmlTree.xmlNode.nodeName);
+		addChild(xmlTree);
 		// Stage:
-		// stage.stageWidth x stage.stageHeight @ stage.dpiScale
+		//\\ stage.stageWidth x stage.stageHeight @ stage.dpiScale
 		
 		// Assets:
 		// nme.Assets.getBitmapData("img/assetname.jpg");
