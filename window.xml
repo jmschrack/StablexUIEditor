@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Text left="50" top="100" text="'My first widget!'"/>
+<HBox childPadding="5">
+	<Scroll>
+		<VBox autoHeight="true" id="'treeContainer'">
+		</VBox>
+	</Scroll>
+	<VBox id="'xmlContainer'" />
+</HBox>
