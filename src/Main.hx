@@ -7,6 +7,7 @@ import flash.events.Event;
 import flash.Lib;
 import ru.stablex.ui.UIBuilder;
 import openfl.Assets;
+import ru.stablex.ui.widgets.VBox;
 /**
  * ...
  * @author Jonathan Schrack
@@ -40,16 +41,20 @@ class Main extends Sprite
 		
 		UIBuilder.regClass('ExpandableTree');
 		UIBuilder.init();
-		//addChild( UIBuilder.buildFn('window.xml')() );
-		
+		addChild( UIBuilder.buildFn('window.xml')() );
+		var treeContainer:VBox = cast UIBuilder.get('treeContainer');
+		var xmlContainer:VBox = cast UIBuilder.get('xmlContainer');
 		// (your code here)
 		trace("Building tree");
 		var doc:Xml = Xml.parse(Assets.getText("assets/position.xml"));
 		var xmlTree:ExpandableTree = ExpandableTree.createTree(doc.firstElement(),"");
 		trace("Adding tree");
+		treeContainer.addChild(xmlTree);
+		
+		xmlContainer.addChild(UIBuilder.buildFn("assets/position.xml")());
 		//trace(xmlTree.numChildren);
 		//trace(xmlTree.xmlNode.nodeName);
-		addChild(xmlTree);
+		//addChild(xmlTree);
 		// Stage:
 		//\\ stage.stageWidth x stage.stageHeight @ stage.dpiScale
 		
