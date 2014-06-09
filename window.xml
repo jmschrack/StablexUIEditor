@@ -5,5 +5,7 @@
 		<VBox autoHeight="true" id="'treeContainer'">
 		</VBox>
 	</Scroll>
-	<VBox id="'xmlContainer'" />
+	<Scroll>
+		<VBox id="'xmlContainer'" />
+	</Scroll>
 </HBox>

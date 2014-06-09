@@ -2,12 +2,14 @@ package ;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
+import ru.stablex.ui.skins.Paint;
 import ru.stablex.ui.widgets.Button;
 import ru.stablex.ui.widgets.HBox;
 import ru.stablex.ui.widgets.Text;
 import ru.stablex.ui.widgets.VBox;
 import ru.stablex.ui.UIBuilder;
 import ru.stablex.ui.widgets.Widget;
+import flash.display.DisplayObject;
 import Xml;
 
 /**
@@ -30,6 +32,7 @@ class ExpandableTree extends VBox
 	var paddingContainer:VBox = new VBox();
 	var expandButton:Button = new Button();
 	var nameLabel:Text = new Text();
+	var indentLabel:Text = new Text();
 	
 	public function new() 
 	{
@@ -51,8 +54,16 @@ class ExpandableTree extends VBox
 		
 		
 		//this.addChild(titleContainer);
-		//titleContainer.addChild(expandButton);
+		titleContainer.addChild(indentLabel);
+		titleContainer.addChild(expandButton);
 		titleContainer.addChild(nameLabel);
+		expandButton.text = "+";
+		if (expandButton.skin == null) expandButton.skin = new Paint();
+		cast(expandButton.skin, Paint).color = 0xaaaaaa;
+		expandButton.onInitialize();
+		expandButton.onCreate();
+		expandButton.w = 0;
+		expandButton.h = 0;
 		//titleContainer.autoHeight = true;
 		//titleContainer.childPadding = 10;
 		//childrenContainer.refresh()
@@ -69,7 +80,8 @@ class ExpandableTree extends VBox
 		
 		var tree = UIBuilder.create(ExpandableTree, { xmlNode:xml } );
 		
-		tree.setXml(xml, depth);
+		tree.setXml(xml);
+		tree.indentLabel.text = depth;
 		depth = "\t" + depth;
 		for ( n in xml.elements()) {
 			var temp:ExpandableTree = createTree(n,depth);
@@ -77,7 +89,9 @@ class ExpandableTree extends VBox
 			tree.childrenContainer.addChild(temp);
 			
 		}
+		tree.checkVis();
 		tree.refresh();
+		tree.titleContainer.refresh();
 		tree.childrenContainer.refresh();
 		tree.paddingContainer.refresh();
 		//tree.paddingContainer.childPadding = 20;
@@ -86,10 +100,25 @@ class ExpandableTree extends VBox
 		
 		return tree;
 	}
-	public function setXml(xml:Xml,depth:String) {
+	public function setXml(xml:Xml) {
 		xmlNode = xml;
-		nameLabel.text = depth+xml.nodeName;
+		nameLabel.text = xml.nodeName;
 		
+	}
+	/*override public function addChild(child:DisplayObject) : DisplayObject {
+		var r=super(child);
+		expandButton.w = 5;
+		expandButton.h = 5;
+		return r;
+	}*/
+	public function checkVis() {
+		if (this.numChildren > 0) {
+			this.expandButton.autoSize = true;
+		}else {
+			this.expandButton.autoSize = false;
+			this.expandButton.h = 0;
+			this.expandButton.w = 0;
+		}
 	}
 	public function expand() {
 		
