@@ -112,12 +112,10 @@ class ExpandableTree extends VBox
 		return r;
 	}*/
 	public function checkVis() {
-		if (this.numChildren > 0) {
-			this.expandButton.autoSize = true;
+		if (this.childrenContainer.numChildren > 0) {
+			this.expandButton.visible = true;
 		}else {
-			this.expandButton.autoSize = false;
-			this.expandButton.h = 0;
-			this.expandButton.w = 0;
+			this.expandButton.visible = false;
 		}
 	}
 	public function expand() {
