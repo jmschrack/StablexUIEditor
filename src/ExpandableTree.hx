@@ -33,6 +33,7 @@ class ExpandableTree extends VBox
 	var expandButton:Button = new Button();
 	var nameLabel:Text = new Text();
 	var indentLabel:Text = new Text();
+	var parentT:Dynamic;
 	
 	public function new() 
 	{
@@ -57,13 +58,14 @@ class ExpandableTree extends VBox
 		titleContainer.addChild(indentLabel);
 		titleContainer.addChild(expandButton);
 		titleContainer.addChild(nameLabel);
-		expandButton.text = "+";
+		expandButton.text = "";
 		if (expandButton.skin == null) expandButton.skin = new Paint();
 		cast(expandButton.skin, Paint).color = 0xaaaaaa;
 		expandButton.onInitialize();
 		expandButton.onCreate();
-		expandButton.w = 0;
-		expandButton.h = 0;
+		//expandButton.w = 0;
+		//expandButton.h = 0;
+		expandButton.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
 		//titleContainer.autoHeight = true;
 		//titleContainer.childPadding = 10;
 		//childrenContainer.refresh()
@@ -71,7 +73,7 @@ class ExpandableTree extends VBox
 		
 		
 	}
-	public static function createTree(xml:Xml,depth:String):ExpandableTree {
+	public static function createTree(xml:Xml,depth:String, ?parentNode:Dynamic):ExpandableTree {
 		//trace("adding nodetype:");
 		//trace(xml.nodeType);
 		//if (xml.nodeType == "element") {
@@ -79,12 +81,12 @@ class ExpandableTree extends VBox
 		//}
 		
 		var tree = UIBuilder.create(ExpandableTree, { xmlNode:xml } );
-		
+		if(parentNode!=null) tree.parentT=parentNode;
 		tree.setXml(xml);
 		tree.indentLabel.text = depth;
 		depth = "\t" + depth;
 		for ( n in xml.elements()) {
-			var temp:ExpandableTree = createTree(n,depth);
+			var temp:ExpandableTree = createTree(n,depth,tree.refreshAllChildren);
 			//temp.leftPt = 20;
 			tree.childrenContainer.addChild(temp);
 			
@@ -105,29 +107,50 @@ class ExpandableTree extends VBox
 		nameLabel.text = xml.nodeName;
 		
 	}
-	/*override public function addChild(child:DisplayObject) : DisplayObject {
-		var r=super(child);
-		expandButton.w = 5;
-		expandButton.h = 5;
-		return r;
-	}*/
+	
 	public function checkVis() {
 		if (this.childrenContainer.numChildren > 0) {
-			this.expandButton.visible = true;
+			this.expandButton.text="+";
+			this.expandButton.visible=true;
 		}else {
-			this.expandButton.visible = false;
+			this.expandButton.visible=false;
 		}
 	}
 	public function expand() {
-		
+	trace("Expand");
+		this.expandButton.text="-";
+		this.childrenContainer.autoSize=true;
+		this.childrenContainer.visible=true;
+		refreshAllChildren();
+		refreshParent();
 	}
 	
 	public function collapse() {
-		
+	trace("Collapse");
+		this.expandButton.text="+";
+		this.childrenContainer.autoSize=false;
+		this.childrenContainer.h=0;
+		this.childrenContainer.visible=false;
+		this.childrenContainer.refresh();
+		refreshAllChildren();
+		refreshParent();
 	}
 	
 	public function onClick(event:MouseEvent):Void {
 		if (isCollapsed) { collapse(); } else { expand(); }
 		isCollapsed = isCollapsed != true;
+	}
+	
+	public function refreshParent(){
+		if(parentT!=null){
+			parentT();
+		}
+	}
+	
+	public function refreshAllChildren(){
+		this.childrenContainer.refresh();
+		this.titleContainer.refresh();
+		this.refresh();
+		
 	}
 }
