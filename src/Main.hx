@@ -44,6 +44,8 @@ class Main extends Sprite
 		addChild( UIBuilder.buildFn('window.xml')() );
 		var treeContainer:VBox = cast UIBuilder.get('treeContainer');
 		var xmlContainer:VBox = cast UIBuilder.get('xmlContainer');
+		var xmlInfoContainer:VBox = cast UIBuilder.get('infoContainer');
+		ExpandableTree.xmlInfoBox=xmlInfoContainer;
 		// (your code here)
 		trace("Building tree");
 		var doc:Xml = Xml.parse(Assets.getText("assets/position.xml"));
@@ -79,6 +81,10 @@ class Main extends Sprite
 		#else
 		init();
 		#end
+	}
+	
+	public function testPrint(){
+		trace("Called from main");
 	}
 	
 	public static function main() 
