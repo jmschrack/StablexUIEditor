@@ -20,6 +20,7 @@ import Xml;
 class ExpandableTree extends VBox
 {
 
+	public static var xmlInfoBox:VBox;
 	
 	public var xmlNode:Xml;
 	//var children:List;
@@ -66,6 +67,7 @@ class ExpandableTree extends VBox
 		//expandButton.w = 0;
 		//expandButton.h = 0;
 		expandButton.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
+		nameLabel.addEventListener(MouseEvent.MOUSE_DOWN, onXmlClick);
 		//titleContainer.autoHeight = true;
 		//titleContainer.childPadding = 10;
 		//childrenContainer.refresh()
@@ -152,5 +154,30 @@ class ExpandableTree extends VBox
 		this.titleContainer.refresh();
 		this.refresh();
 		
+	}
+	
+	public function onXmlClick(event:MouseEvent):Void{
+		if(xmlInfoBox!=null){
+			xmlInfoBox.removeChildren();
+			var atts:Iterator<String> = xmlNode.attributes();
+			var temp:String;
+			var tempLabel:Text;
+			var tempValue:Text;
+			while(atts.hasNext()){
+				temp=atts.next();
+				var hbx = new HBox();
+				tempLabel= new Text();
+				tempLabel.text=temp;
+				tempValue= new Text();
+				tempValue.text=xmlNode.get(temp);
+				hbx.addChild(tempLabel);
+				hbx.addChild(tempValue);
+				hbx.refresh();
+				xmlInfoBox.addChild(hbx);
+			}
+			xmlInfoBox.refresh();
+			var leftPane:VBox = cast UIBuilder.get('leftPanel');
+			leftPane.refresh();
+		}
 	}
 }
