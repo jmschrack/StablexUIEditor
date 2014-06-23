@@ -45,6 +45,7 @@ class Main extends Sprite
 		var treeContainer:VBox = cast UIBuilder.get('treeContainer');
 		var xmlContainer:VBox = cast UIBuilder.get('xmlContainer');
 		var xmlInfoContainer:VBox = cast UIBuilder.get('infoContainer');
+		var leftPanel:VBox = cast UIBuilder.get('leftPanel');
 		ExpandableTree.xmlInfoBox=xmlInfoContainer;
 		// (your code here)
 		trace("Building tree");
@@ -52,7 +53,7 @@ class Main extends Sprite
 		var xmlTree:ExpandableTree = ExpandableTree.createTree(doc.firstElement(),"");
 		trace("Adding tree");
 		treeContainer.addChild(xmlTree);
-		
+		leftPanel.refresh();
 		xmlContainer.addChild(UIBuilder.buildFn("assets/position.xml")());
 		//trace(xmlTree.numChildren);
 		//trace(xmlTree.xmlNode.nodeName);
