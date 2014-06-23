@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <HBox childPadding="5">
-	<Scroll>
-		<VBox autoHeight="true" id="'treeContainer'">
-		</VBox>
-	</Scroll>
+	<VBox autoHeight="true" childPadding="1" id="'leftPanel'">
+		<Scroll >
+			<VBox autoHeight="true" id="'treeContainer'">
+			</VBox>
+		</Scroll>
+		<VBox id="'infoContainer'" childPadding="1" height="100" width="100"/>
+	</VBox>
 	<Scroll>
 		<VBox id="'xmlContainer'" />
 	</Scroll>
