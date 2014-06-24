@@ -6,6 +6,7 @@ import ru.stablex.ui.skins.Paint;
 import ru.stablex.ui.widgets.Button;
 import ru.stablex.ui.widgets.HBox;
 import ru.stablex.ui.widgets.Text;
+import ru.stablex.ui.widgets.InputText;
 import ru.stablex.ui.widgets.VBox;
 import ru.stablex.ui.UIBuilder;
 import ru.stablex.ui.widgets.Widget;
@@ -162,14 +163,15 @@ class ExpandableTree extends VBox
 			var atts:Iterator<String> = xmlNode.attributes();
 			var temp:String;
 			var tempLabel:Text;
-			var tempValue:Text;
+			var tempValue:InputText;
 			while(atts.hasNext()){
 				temp=atts.next();
 				var hbx = new HBox();
 				tempLabel= new Text();
 				tempLabel.text=temp;
-				tempValue= new Text();
+				tempValue= new InputText();
 				tempValue.text=xmlNode.get(temp);
+				tempValue.refresh();
 				hbx.addChild(tempLabel);
 				hbx.addChild(tempValue);
 				hbx.refresh();
